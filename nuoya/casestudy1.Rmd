@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r q1, echo = TRUE}
-setwd("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1")
+setwd("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/nuoya")
 brewery <- read.csv('Breweries.csv', sep = ',')
 numberBrewery <- unique(brewery)
 ```
