@@ -122,7 +122,7 @@ bp <- barplot(finalmedian$`Median ABV`,
 				las = 1)
 ```
 
-![](casestudy1_files/figure-html/q4-1.png)<!-- -->
+![](caseanalysis_files/figure-html/q4-1.png)<!-- -->
 
 
 ```r
@@ -173,5 +173,5 @@ ABVcontent <- mergebeer$ABV
 linearABVIBU <- plot(ABVcontent~IBUcontent)
 ```
 
-![](casestudy1_files/figure-html/q7-1.png)<!-- -->
+![](caseanalysis_files/figure-html/q7-1.png)<!-- -->
 
