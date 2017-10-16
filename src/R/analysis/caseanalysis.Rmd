@@ -21,6 +21,9 @@ mergebeer <- merge(beer,brewery,by = 'Brew_ID',all = FALSE)
 mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] <- 'Beer Name'
 colnames(mergebeer)[8] <- 'Brewery Name'
+
+write.csv(mergebeer,"C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/src/R/analysis/merged.csv", row.names = FALSE)
+
 first6 <- head(mergebeer,6)
 last6 <- tail(mergebeer,6)
 ```

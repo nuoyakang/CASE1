@@ -133,6 +133,9 @@ mergebeer &lt;- merge(beer,brewery,by = 'Brew_ID',all = FALSE)
 mergebeer &lt;- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] &lt;- 'Beer Name'
 colnames(mergebeer)[8] &lt;- 'Brewery Name'
+
+write.csv(mergebeer,&quot;C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/src/R/analysis/merged.csv&quot;, row.names = FALSE)
+
 first6 &lt;- head(mergebeer,6)
 last6 &lt;- tail(mergebeer,6)</code></pre>
 <pre class="r"><code>numberNA &lt;- colSums(is.na(mergebeer))
