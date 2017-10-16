@@ -123,10 +123,10 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>setwd(&quot;C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1&quot;)
-brewery &lt;- read.csv('Breweries.csv', sep = ',')
+<pre class="r"><code>brewery &lt;- read.csv(&quot;C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Breweries.csv&quot;, sep = ',')
+
 numberBrewery &lt;- unique(brewery)</code></pre>
-<pre class="r"><code>beer &lt;- read.csv('Beers.csv', sep = ',')
+<pre class="r"><code>beer &lt;- read.csv(&quot;C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Beers.csv&quot;, sep = ',')
 colnames(beer) &lt;- c('Name','Beer_ID','ABV','IBU','Brew_ID','Style','Ounces')
 brewery$Brew_ID &lt;- rownames(brewery)
 mergebeer &lt;- merge(beer,brewery,by = 'Brew_ID',all = FALSE)
@@ -134,7 +134,7 @@ mergebeer &lt;- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] &lt;- 'Beer Name'
 colnames(mergebeer)[8] &lt;- 'Brewery Name'
 first6 &lt;- head(mergebeer,6)
-last6 &lt;- tail (mergebeer,6)</code></pre>
+last6 &lt;- tail(mergebeer,6)</code></pre>
 <pre class="r"><code>numberNA &lt;- colSums(is.na(mergebeer))
 numberNA</code></pre>
 <pre><code>##      Beer_ID    Beer Name        Style          ABV          IBU 

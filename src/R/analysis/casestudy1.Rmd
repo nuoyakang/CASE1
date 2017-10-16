@@ -8,12 +8,13 @@ output:
 ---
 
 ```{r q1, echo = TRUE}
-setwd("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1")
-brewery <- read.csv('Breweries.csv', sep = ',')
+
+brewery <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Breweries.csv", sep = ',')
+
 numberBrewery <- unique(brewery)
 ```
 ```{r q2, echo= TRUE}
-beer <- read.csv('Beers.csv', sep = ',')
+beer <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Beers.csv", sep = ',')
 colnames(beer) <- c('Name','Beer_ID','ABV','IBU','Brew_ID','Style','Ounces')
 brewery$Brew_ID <- rownames(brewery)
 mergebeer <- merge(beer,brewery,by = 'Brew_ID',all = FALSE)

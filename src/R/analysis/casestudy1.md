@@ -4,13 +4,13 @@ October 8, 2017
 
 
 ```r
-setwd("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1")
-brewery <- read.csv('Breweries.csv', sep = ',')
+brewery <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Breweries.csv", sep = ',')
+
 numberBrewery <- unique(brewery)
 ```
 
 ```r
-beer <- read.csv('Beers.csv', sep = ',')
+beer <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Beers.csv", sep = ',')
 colnames(beer) <- c('Name','Beer_ID','ABV','IBU','Brew_ID','Style','Ounces')
 brewery$Brew_ID <- rownames(brewery)
 mergebeer <- merge(beer,brewery,by = 'Brew_ID',all = FALSE)
@@ -18,7 +18,7 @@ mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] <- 'Beer Name'
 colnames(mergebeer)[8] <- 'Brewery Name'
 first6 <- head(mergebeer,6)
-last6 <- tail (mergebeer,6)
+last6 <- tail(mergebeer,6)
 ```
 
 
