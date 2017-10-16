@@ -1,5 +1,5 @@
 ---
-title: "Case Study 1"
+title: "Statewide Beer Availability Report"
 author: "Nuoya & Meenu"
 date: "October 8, 2017"
 output: 
@@ -7,13 +7,61 @@ output:
       keep_md: true
 ---
 
-```{r read data, echo = TRUE}
+### Introduction
+
+This report summarizes the statistical analysis, analysis results and analysis plots associated with 2410 US craft beers and 588 US breweries inside United States of Ameirca. 
+
+The purpose of this report is to illustrate data processing and modelling method used in this analysis as well as inferences and conclusions one can draw from it.
+
+Project target is providing the analysis result to clients who want to invest in beer industy, with analysis results providing they will be able to have a general understanding of the local beer business trend of each state.
+
+Project report including:
+
+* statistical analysis:
+
+	+ comparing the median alcohol content and international bitterness unit for each state
+
+	+ finding the maximum alcoholic beer and the most bitter beer
+
+	+ making judgement of the relationship between ABV and IBU from data provided.
+
+* conclusion and references from the statistical analysis
+
+### Analysis processes
+1. Read 588 US breweries data sets into R and find out the number of breweries are present in each state.One can find the number of breweries of each state by checking eachstate output blow.
+```{r breweries number, echo=TRUE}
 #read the raw data of brewery#
 brewery <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Breweries.csv", sep = ',')
-#find the unique values in brewery
-numberBrewery <- unique(brewery)
+
+#find out how many breweries are present in each state
+eachstate <- table(factor(brewery$State))
+eachstate <- data.frame(eachstate)
+eachstate
 ```
 
+2. Read 2410 US craft beers data set into R and merge with brewery data set by the Brewery ID. After merging, I assign new column names to make the data set more understandable, show the first 6 beers and the last 6 beers. At the very end, write the processed data into the working directory. 
+
+	+ The first 6 beers on the merged data are: 
+	
+		Beer Name     | Style                              | State| Breweries
+		--------------|------------------------------------|------|-----------------
+		Get Together  | American IPA                       | MN   |NorthGate Brewing
+		Maggie's Leap | Milk / Sweet Stout                 | MN   |NorthGate Brewing
+		Wall's End    | English Brown Ale                  | MN   |NorthGate Brewing
+		Pumpion       | Pumpkin Ale                        | MN   |NorthGate Brewing
+		Stronghold    | American Porter                    | MN   |NorthGate Brewing
+		Parapet ESB   | Extra Special / Strong Bitter (ESB)| MN   |NorthGate Brewing
+		
+	+ The last 6 beers on the merged data are: 
+
+		Beer Name                | Style                     | State| Breweries
+		-------------------------|---------------------------|------|------------
+		Pilsner Ukiah            | German Pilsener           | CA   |Ukiah Brewing Company
+		Heinnieweisse Weissebier | Hefeweizen                | NY   |Butternuts Beer and Ale
+		Snapperhead IPA          | American IPA              | NY   |Butternuts Beer and Ale
+		Moo Thunder Stout        | Milk / Sweet Stout        | NY   |Butternuts Beer and Ale
+		Porkslap Pale Ale        | American Pale Ale (APA)   | NY   |Butternuts Beer and Ale
+		Urban Wilderness Pale Ale| English Pale Ale          | AK   |Sleeping Lady Brewing Company   
 ```{r clean and merge, echo= TRUE}
 #read the raw data of beer data set
 beer <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Beers.csv", sep = ',')
@@ -26,24 +74,43 @@ mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] <- 'Beer Name'
 colnames(mergebeer)[8] <- 'Brewery Name'
 
-#write the merged data to the processed file
-write.csv(mergebeer,"C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/processed/merged.csv", row.names = FALSE)
-
 #find the first 6 and last 6
 first6 <- head(mergebeer,6)
+first6
 last6 <- tail(mergebeer,6)
+last6
+#write the merged data to the processed file
+write.csv(mergebeer,"C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/processed/merged.csv", row.names = FALSE)
 ```
+
+2. Summarise the number of missing values of each column. 
+
+Column Name | Total Number of NA         
+------------|--------------------
+Beer_ID     | 	0          
+Beer Name 	| 	0               
+Style	    	| 	0            
+ABV         | 	62        
+IBU         | 	1005 
+Ounces      | 	0        
+Brew_ID     | 	0   
+Brewery Name| 	0   
+City     		| 	0    
+State     	| 	0    
 
 ```{r find NAs for each column, echo= TRUE}
 numberNA <- colSums(is.na(mergebeer))
+numberNA <- data.frame(numberNA)
 numberNA
 ```
+3. Get the median alcohol content and international bitterness unit for each state. Plot out the bar chart for comparison of medians of each state.Please find the bar plot outputs(Blue is for median alcohol content and red is for international bitterness unit.) as well as the table for meidans of alcohol content and international bitterness unit. 
 
 ```{r draw the bar plot, fig.width=10, fig.height=12, echo= TRUE}
 #subset the data as state,ABV and IBU
 subsetbeer<- data.frame(mergebeer$State,
 												mergebeer$ABV,
 												mergebeer$IBU)
+
 #apply the function to find the median
 MedianABV <- tapply(subsetbeer$mergebeer.ABV,subsetbeer$mergebeer.State,median)
 MedianIBU <- tapply(subsetbeer$mergebeer.IBU,subsetbeer$mergebeer.State,median)
@@ -60,7 +127,7 @@ finalmedian <- finalmedian[c(3,1,2)]
 rownames(finalmedian) <- NULL
 finalmedian
 
-#draw the bar plot
+#draw the bar plot pf abv
 par(mar=c(18, 4.1, 4.1, 2.1), mgp=c(3, 1, 0), las=2) #http://rfunction.com/archives/1302
 
 bp <- barplot(finalmedian$`Median ABV`,
@@ -71,8 +138,34 @@ bp <- barplot(finalmedian$`Median ABV`,
 				horiz=T, 
 				density = 50,
 				las = 1)
+
+#draw the bar plot pf IBU
+par(mar=c(18, 4.1, 4.1, 2.1), mgp=c(3, 1, 0), las=2) #http://rfunction.com/archives/1302
+
+bp <- barplot(finalmedian$`Median IBU`,
+      	ylab ='States',
+        xlab  ='Median Alcohol Content',
+				ylim = c(0,55),
+				col = 'red',
+				horiz=T, 
+				density = 50,
+				las = 1)
 ```
 
+4. Find out the state that has the maximum alcoholic beer and the state that has the most bitter beer.
+
+* The maximum alcoholic beer is Lee Hill Series Vol. 5(Belgian Style Quadrupel Ale).It is from co with ABV value 0.128
+
+Beer Name   				    	 | Style                         | State | ABV value
+---------------------------|-------------------------------|-------|-----------
+Lee Hill Series Vol. 5     | Quadrupel (Quad)              | CO    | 0.128
+	
+* The most bitter beer is Bitter Bitch Imperial IPA.It is from OR with IBU value 138.
+
+Beer Name   						     | Style           				       | State | IBU value
+-----------------------------|-------------------------------|-------|-----------
+Bitter Bitch Imperial IPA    | American Double / Imperial IPA| OR    | 138
+			
 ```{r find the max in ABV and IBU, echo=TRUE}
 maxcalculation <- data.frame(mergebeer$ABV,mergebeer$IBU)
 #use a function to find them and also not including the na values
@@ -87,7 +180,11 @@ maximum <- rbind(maxabv,maxibu)
 maximum
  
 ```
+5. The following is to provide a statistical summary of the ABV values
 
+Min  | 1st Quantile | Median | Mean  | 3rd Quantile | Max    | NA
+-----|--------------|--------|-------|--------------|--------|----
+0.001| 0.05000      | 0.056  |0.05677| 0.06700      | 0.12800| 62  
 ```{r summary of ABV,echo=TRUE}
 summaryABV <- summary(mergebeer$ABV)
 summaryABV
@@ -103,3 +200,4 @@ ggplot(mergebeer, aes(x=IBU, y=ABV)) +
   labs(x="International Bitterness Units of the beer", y="Alcohol by volume of the beer")
 ```
 
+### Conclusion and Inferences
