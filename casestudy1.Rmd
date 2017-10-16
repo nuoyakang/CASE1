@@ -21,7 +21,7 @@ mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] <- 'Beer Name'
 colnames(mergebeer)[8] <- 'Brewery Name'
 first6 <- head(mergebeer,6)
-last6 <- tail (mergebeer,6)
+last6 <- tail(mergebeer,6)
 ```
 
 ```{r q3, echo= TRUE}
