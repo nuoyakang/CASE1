@@ -17,26 +17,25 @@ mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
 colnames(mergebeer)[2] <- 'Beer Name'
 colnames(mergebeer)[8] <- 'Brewery Name'
 
+#cleaning the data, sort out first 6 and last 6
+mergebeerclean <- na.omit(mergebeer)
 #find the first 6 and last 6
 first6 <- head(mergebeer,6)
 first6
 last6 <- tail(mergebeer,6)
 last6
-#write the merged data to the processed file
-write.csv(mergebeer,"C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/processed/merged.csv", row.names = FALSE)
 
 numberNA <- colSums(is.na(mergebeer))
 numberNA <- data.frame(numberNA)
 numberNA
 
-#subset the data as state,ABV and IBU
-subsetbeer<- data.frame(mergebeer$State,
-												mergebeer$ABV,
-												mergebeer$IBU)
+subsetbeer<- data.frame(mergebeerclean$State,
+												mergebeerclean$ABV,
+												mergebeerclean$IBU)
 
 #apply the function to find the median
-MedianABV <- tapply(subsetbeer$mergebeer.ABV,subsetbeer$mergebeer.State,median)
-MedianIBU <- tapply(subsetbeer$mergebeer.IBU,subsetbeer$mergebeer.State,median)
+MedianABV <- tapply(subsetbeer$mergebeerclean.ABV,subsetbeer$mergebeerclean.State,median)
+MedianIBU <- tapply(subsetbeer$mergebeerclean.IBU,subsetbeer$mergebeerclean.State,median)
 
 #combine the together
 MedianABV <-data.frame(MedianABV)
@@ -73,22 +72,31 @@ bp <- barplot(finalmedian$`Median IBU`,
 							horiz=T, 
 							density = 50,
 							las = 1)
+#plot = df.state.value_counts().plot(kind='bar', title="Number of Breweries in Each State", \	figsize=(8,6), colormap='summer')
+#plot.set_xlabel('State')
+#plot.set_ylabel('Number of Breweries')
+#mean_line = plot.axhline(df.state.value_counts().mean(), color='r',\ label='Average Number of Breweries')
+#plt.legend()
 
-maxcalculation <- data.frame(mergebeer$ABV,mergebeer$IBU)
+
+#find the most alcoholic beer and most bitter beer
+maxcalculation <- data.frame(mergebeerclean$ABV,mergebeerclean$IBU)
 #use a function to find them and also not including the na values
 colMax <- function(data) {sapply(data, max, na.rm = TRUE)}
 colMax(maxcalculation)
 #find the value and combine them
-maxabv <- mergebeer[which(mergebeer$ABV==0.128),]
+maxabv <- mergebeerclean[which(mergebeerclean$ABV==0.125),]
 maxabv <- maxabv[c(1,2,3,4,5,10)]
-maxibu <- mergebeer[which(mergebeer$IBU==138),]
+maxibu <- mergebeerclean[which(mergebeerclean$IBU==138),]
 maxibu <- maxibu[c(1,2,3,4,5,10)]
 maximum <- rbind(maxabv,maxibu)
 maximum
 
-summaryABV <- summary(mergebeer$ABV)
+#statistical summary of ABV
+summaryABV <- summary(mergebeerclean$ABV)
 summaryABV
 
+#scatter plot of the linear
 library(ggplot2)
 cor(mergebeer$IBU, mergebeer$ABV)
 
