@@ -6,7 +6,10 @@ output:
   html_document:
       keep_md: true
 ---
-
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "/SMU/MyProjects/CASE1/")
+```
 ### Introduction
 
 This report summarizes the statistical analysis, analysis results and analysis plots associated with 2410 US craft beers and 588 US breweries inside United States of Ameirca. 
@@ -32,10 +35,10 @@ Project report including:
 1. Read 588 US breweries data sets into R and find out the number of breweries are present in each state.One can find the number of breweries of each state by checking eachstate output blow.
 ```{r breweries number, echo=TRUE}
 #read the raw data of brewery#
-brewery <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Breweries.csv", sep = ',')
+df_breweries <- read.csv("data/raw/Breweries.csv", sep = ',')
 
 #find out how many breweries are present in each state
-eachstate <- table(factor(brewery$State))
+eachstate <- table(factor(df_breweries$State))
 eachstate <- data.frame(eachstate)
 colnames(eachstate) <- c('States','Freq')
 eachstate
@@ -66,27 +69,35 @@ eachstate
 		Upstate I.P.W.                  | American IPA          | NY   |Upstate Brewing Company  
 		
 ```{r clean and merge, echo= TRUE}
-#read the raw data of beer data set
-beer <- read.csv("C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/CaseStudy1/data/raw/Beers.csv", sep = ',')
-colnames(beer) <- c('Name','Beer_ID','ABV','IBU','Brew_ID','Style','Ounces')
 
-#merge them by brewery ID
-brewery$Brew_ID <- rownames(brewery)
-mergebeer <- merge(beer,brewery,by = 'Brew_ID',all = FALSE)
-mergebeer <- mergebeer[c(3,2,6,4,5,7,1,8,9,10)]
-colnames(mergebeer)[2] <- 'Beer Name'
-colnames(mergebeer)[8] <- 'Brewery Name'
+#read the Beer file 
+df_beer <- read.csv("data/raw/Beers.csv", sep = ',')
 
-#cleaning the data, sort out first 6 and last 6
-mergebeerclean <- na.omit(mergebeer)
+#Merge the data on Brew id and check the merged file
+df_merge <- merge(df_beer, df_breweries, by.x="Brewery_id", by.y = "Brew_ID")
+head(df_merge)
+tail(df_merge)
+
+#Give the columns more meaningful name
+colnames(df_merge)[2] <- "Beer_name"
+colnames(df_merge)[8] <- "Brew_name"
+names(df_merge)
+
+#Arrange the columns in proper order to make the data sensible
+df_merge <- df_merge[c("Brewery_id","Brew_name","Beer_ID","Beer_name",
+                       "ABV","IBU","Style","Ounces", "City","State")]
+
+
+#cleaning the data, print out first 6 and last 6
+mergebeerclean <- na.omit(df_merge)
 #find the first 6 and last 6
-first6 <- head(mergebeer,6)
+first6 <- head(df_merge,6)
 first6
-last6 <- tail(mergebeer,6)
+last6 <- tail(df_merge,6)
 last6
 ```
 
-2. Summarise the number of missing values of each column. 
+3. Summarise the number of missing values of each column. 
 
 Column Name | Total Number of NA         
 ------------|--------------------
@@ -101,12 +112,13 @@ Brewery Name| 	0
 City     		| 	0    
 State     	| 	0    
 
+
 ```{r find NAs for each column, echo= TRUE}
-numberNA <- colSums(is.na(mergebeer))
+numberNA <- colSums(is.na(df_merge))
 numberNA <- data.frame(numberNA)
 numberNA
 ```
-3. This analysis process is based on the cleaned and merged data set. The goal is to get the median alcohol content and international bitterness unit for each state and plot out the bar chart for comparison of medians of each state.Please find the bar plot outputs(You can also find the plots inside the report/plots folder.) as well as the table below for meidans of alcohol content and international bitterness unit. 
+4. This analysis process is based on the merged data set. The goal is to get the median alcohol content and international bitterness unit for each state and plot out the bar chart for comparison of medians of each state.Please find the bar plot outputs(You can also find the plots inside the report/plots folder.) as well as the table below for meidans of alcohol content and international bitterness unit. 
 
 ```{r draw the bar plot, fig.width=10, fig.height=12, echo= TRUE}
 
@@ -138,9 +150,11 @@ bp <- barplot(finalmedian$`Median ABV`,
       	ylab ='States',
         xlab  ='Median Alcohol Content',
 				ylim = c(0,55),
-				col = 'blue',
+				col = 'darkblue',
 				horiz=TRUE, 
 				density = 50,
+				border = "blue",
+				axes = FALSE,
 				las = 1)
 
 #draw the bar plot pf IBU
@@ -156,7 +170,7 @@ bp <- barplot(finalmedian$`Median IBU`,
 				las = 1)
 ```
 
-4. Find out the state that has the maximum alcoholic beer and the state that has the most bitter beer.
+5. The state that has the maximum alcoholic beer and the state that has the most bitter beer.
 
 * The maximum alcoholic beer is London Balling.It is from KY with ABV value 0.125
 
@@ -184,7 +198,7 @@ maximum <- rbind(maxabv,maxibu)
 maximum
  
 ```
-5. The following is to provide a statistical summary of the ABV values
+6. The following is to provide a statistical summary of the ABV values
 
 Min  | 1st Quantile(25%)| Median | Mean  | 3rd Quantile(75%) | Max    | 
 -----|------------------|--------|-------|-------------------|--------|
@@ -193,6 +207,8 @@ Min  | 1st Quantile(25%)| Median | Mean  | 3rd Quantile(75%) | Max    |
 summaryABV <- summary(mergebeerclean$ABV)
 summaryABV
 ```
+7.Scatter plot to show a relationship between the bitterness of the beer and its alcoholic
+content.
 
 ```{r scatter plot, echo=TRUE}
 library(ggplot2)
@@ -204,25 +220,15 @@ ggplot(mergebeerclean, aes(x=IBU, y=ABV)) +
   labs(x="International Bitterness Units of the beer", y="Alcohol by volume of the beer")
 ```
 
-### Conclusion and Inferences
-
-The purpose of this analysis is to provide the analysis result to who want to invest in beer industy, with analysis results providing you will be able to have a general understanding of the local beer business trend of each state.
-
-* Conclusion and inferences: 
-
-	* ABV and IBU findings:
-
-	* Based on the barplots for ABV and IBU and the barplots are based on the cleaned and merged data.
-	
-		* West Virgina has both relatively high ABV and IBU. This applies to Michigan, Georgia and Florida.
+### Takeaways
+		* West Virgina has both relatively high ABV and IBU. So does Michigan, Georgia and Florida.
 	
 	 	* While Wisconsin has a lower IBU, the ABV is relatively high. This also applies to Kansas, Arizona.
 	 	
-		* The maximum alcoholic beer is London Balling.It is from KY with ABV value 0.125
+		* The maximum alcoholic beer is London Balling.It is from Kentucky with ABV value 0.125
 	
-		* The most bitter beer is Bitter Bitch Imperial IPA.It is from OR with IBU value 138.
-	
-* Relationship between ABV and IBU: 
-
-Based on the scatter plot, you can see that there is a positive realtionship between ABV and IBU which means when the IBU increases then ABV will increases too. Based on the data provided by the clients, beers with ABV less than 0.0075 and IBU less than 50 takes the majority of the points on the grah. The scatter plot also shows the extreme values which are the maximum alcoholic beer, London Balling with ABV value 0.125 and the most bitter beer,Bitter Bitch Imperial IPA with IBU value 128.
-	
+		* The most bitter beer is Bitter Bitch Imperial IPA.It is from Oregon with IBU value 138. 
+		
+		* Relationship between Alcohol by volume of the beer and the Bitterness of the beer:- 
+        While there is not a total positive correlation (0.67), they are still highly correlated. This is an interesting aspect that we can explore further down the road.
+        

@@ -23,10 +23,12 @@ State: U.S. State where the brewery is located.
 
 The beers and the breweries are linked by Brew id.
 
-
 The analysis of this project is a collaborative work by Meenu Ahluwalia and Nuoya Rezsonya.
 
 We merged the Brews and Breweries dataset to have a more readable dataset which helped us in analysing the data easily.
+The two merged files at CASE1/data/processed are 
+1. BeersAndBreweries.csv - This merged dataset has missing values from the original dataset
+2. BeersAndBreweriesCleaned.csv - Excluded blank values. This was done to get a correct correlation of Bitterness VS Alcohol content in beer.
 
 We analyzed the data to help us answer questions like
 
@@ -35,6 +37,7 @@ b. which columns in the dataset have missing values
 c. the state with the most alcoholic beer                
 d. the state with the most bitter beer                                     
 e. a quantile statistics for ABV (alcohol by volume of the beer)                           
+
 
 Exploratory data analysis on the dataet :
 

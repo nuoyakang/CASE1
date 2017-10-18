@@ -3,7 +3,6 @@ df_beer <- read.csv("data/raw/Beers.csv")
 head(df_beer)
 tail(df_beer)
 
-getwd()
 #read the Breweries data file and check the data
 df_breweries <- read.csv("data/raw/Breweries.csv")
 head(df_breweries)
@@ -38,3 +37,5 @@ tail(df_merged)
 
 #Write the merged data in a csv file to be able to read for analysis later on
 write.csv(df_merged,"data/processed/BeersAndBreweriesCleaned.csv", row.names = FALSE)
+
+

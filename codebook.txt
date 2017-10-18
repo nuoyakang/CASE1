@@ -1,0 +1,89 @@
+Code Book
+
+This document describes the code for caseanalysis.Rmd
+
+The code is splitted (by comments) in some sections:
+
+    Objects
+    Loading data
+	Writing final data to CSV
+    Analysing /Manipulating data
+	Plots
+    
+
+Objects
+
+data.frane objects  
+df_breweries, df_beer - for raw data
+df_merge - merged dataset 
+mergebeerclean - merged dataset excluding NA 
+numberNA - data frame which contains the list of columns and their missing values
+finalmedian - data frame which stores the state wise median of alcohol content and  median of alcohol bitterness
+maximum - list that stores the state that has the maximum alcoholic beer and the state that has the most bitter beer.
+
+Merged data (blank values excluded) :- 
+
+Brewery_id    Brew_name		  Beer_ID	Beer_name		ABV		IBU
+1			NorthGate Brewing	2692	Get Together	0.045	50	
+1			NorthGate Brewing	2691	Maggie's Leap	0.049	26	
+1			NorthGate Brewing	2690	Wall's End		0.048	19	
+1			NorthGate Brewing	2689	Pumpion			0.060	38	
+1			NorthGate Brewing	2688	Stronghold		0.060	25	
+1			NorthGate Brewing	2687	Parapet ESB		0.056	47
+
+Loading data
+This case study analyzes the dataset of beers and breweries.  The dataset is in a tidy format and values were already cleaned up.
+
+There are 2410 beer entries in the beer dataset which contain the following information
+Name: Name of the beer.
+Beer ID: Unique identifier of the beer.
+ABV: Alcohol by volume of the beer.
+IBU: International Bitterness Units of the beer.
+Brewery ID: Brewery id associated with the beer.
+Style: Style of the beer.
+Ounces: Ounces of beer.
+
+The breweries dataset contain the following information about the breweries.
+Brew ID: Unique identifier of the brewery.
+Name: Name of the brewery.
+City: City where the brewery is located.
+State: U.S. State where the brewery is located.
+
+The beers and the breweries are linked by Brew id.
+    
+Raw data is read into df_beer and df_breweries data frame respectively. 
+Data is merged on Brew id and merged dataset viz, df_beer, mergebeerclean and saved as csv files under data/processed/ folder. 
+
+Analyzing/Manipulating data
+
+		Answers following question about the dataset
+		
+1.	Finds missing values in the data set
+	Output looks like this :-
+	Column		  NA
+Brewery_id        0
+Brew_name         0
+Beer_ID           0
+Beer_name         0
+ABV              62
+IBU            1005
+Style             0
+Ounces            0
+City              0
+State             0	
+
+2.	State with the most maximum alcoholic (ABV) beer, state with the most bitter (IBU) beer
+	Output :- 
+     Brewery_id                 Brew_name Beer_ID                 Beer_name   ABV State
+8             2 Against the Grain Brewery    2685            London Balling 0.125    KY
+1134        375   Astoria Brewing Company     980 Bitter Bitch Imperial IPA 0.082    OR	
+	
+3.	Summary statistics for the ABV variable
+	Output :- 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.02700 0.05000 0.05700 0.05991 0.06800 0.12500 	
+	
+4. Plots
+	a. Creates a Bar charts for the median alcohol content and international bitterness unit for each state.
+	b. Scatter plot for relationship between the bitterness of the beer and its alcoholic content (uses library(ggplot2)
+	These plots can be found in report/plots folder
