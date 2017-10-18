@@ -37,7 +37,7 @@ Project report including:
 #read the raw data of brewery#
 df_breweries <- read.csv("data/raw/Breweries.csv", sep = ',')
 
-#find out how many breweries are present in each state
+#find out how many breweries are present in each state.
 eachstate <- table(factor(df_breweries$State))
 eachstate <- data.frame(eachstate)
 colnames(eachstate) <- c('States','Freq')
@@ -83,7 +83,7 @@ colnames(df_merge)[2] <- "Beer_name"
 colnames(df_merge)[8] <- "Brew_name"
 names(df_merge)
 
-#Arrange the columns in proper order to make the data sensible
+#Arrange the columns in proper order to make the data sensible.
 df_merge <- df_merge[c("Brewery_id","Brew_name","Beer_ID","Beer_name",
                        "ABV","IBU","Style","Ounces", "City","State")]
 
