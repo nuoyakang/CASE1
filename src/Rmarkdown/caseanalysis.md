@@ -30,7 +30,7 @@ Project report including:
 #read the raw data of brewery#
 df_breweries <- read.csv("data/raw/Breweries.csv", sep = ',')
 
-#find out how many breweries are present in each state
+#find out how many breweries are present in each state.
 eachstate <- table(factor(df_breweries$State))
 eachstate <- data.frame(eachstate)
 colnames(eachstate) <- c('States','Freq')
@@ -119,10 +119,10 @@ eachstate
 
 ```r
 #read the Beer file 
-df_merge <- read.csv("data/raw/Beers.csv", sep = ',')
+df_beer <- read.csv("data/raw/Beers.csv", sep = ',')
 
 #Merge the data on Brew id and check the merged file
-df_merge <- merge(df_merge, df_breweries, by.x="Brewery_id", by.y = "Brew_ID")
+df_merge <- merge(df_beer, df_breweries, by.x="Brewery_id", by.y = "Brew_ID")
 head(df_merge)
 ```
 
@@ -191,7 +191,7 @@ names(df_merge)
 ```
 
 ```r
-#Arrange the columns in proper order to make the data sensible
+#Arrange the columns in proper order to make the data sensible.
 df_merge <- df_merge[c("Brewery_id","Brew_name","Beer_ID","Beer_name",
                        "ABV","IBU","Style","Ounces", "City","State")]
 
@@ -466,13 +466,6 @@ content.
 
 ```r
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 3.4.2
-```
-
-```r
 cor(mergebeerclean$IBU, mergebeerclean$ABV)
 ```
 

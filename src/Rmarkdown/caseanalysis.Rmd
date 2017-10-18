@@ -8,7 +8,7 @@ output:
 ---
 ```{r "setup", include=FALSE}
 require("knitr")
-opts_knit$set(root.dir = "/SMU/MyProjects/CASE1/")
+opts_knit$set(root.dir = "C:/Users/Dell Eater/Nuoya's/SMU Nuoya/MSDS6306/case1")
 ```
 ### Introduction
 

@@ -147,7 +147,7 @@ $(document).ready(function () {
 <pre class="r"><code>#read the raw data of brewery#
 df_breweries &lt;- read.csv(&quot;data/raw/Breweries.csv&quot;, sep = ',')
 
-#find out how many breweries are present in each state
+#find out how many breweries are present in each state.
 eachstate &lt;- table(factor(df_breweries$State))
 eachstate &lt;- data.frame(eachstate)
 colnames(eachstate) &lt;- c('States','Freq')
@@ -314,10 +314,10 @@ eachstate</code></pre>
 </ul></li>
 </ol>
 <pre class="r"><code>#read the Beer file 
-df_merge &lt;- read.csv(&quot;data/raw/Beers.csv&quot;, sep = ',')
+df_beer &lt;- read.csv(&quot;data/raw/Beers.csv&quot;, sep = ',')
 
 #Merge the data on Brew id and check the merged file
-df_merge &lt;- merge(df_merge, df_breweries, by.x=&quot;Brewery_id&quot;, by.y = &quot;Brew_ID&quot;)
+df_merge &lt;- merge(df_beer, df_breweries, by.x=&quot;Brewery_id&quot;, by.y = &quot;Brew_ID&quot;)
 head(df_merge)</code></pre>
 <pre><code>##   Brewery_id        Name.x Beer_ID   ABV IBU
 ## 1          1  Get Together    2692 0.045  50
@@ -368,7 +368,7 @@ colnames(df_merge)[8] &lt;- &quot;Brew_name&quot;
 names(df_merge)</code></pre>
 <pre><code>##  [1] &quot;Brewery_id&quot; &quot;Beer_name&quot;  &quot;Beer_ID&quot;    &quot;ABV&quot;        &quot;IBU&quot;       
 ##  [6] &quot;Style&quot;      &quot;Ounces&quot;     &quot;Brew_name&quot;  &quot;City&quot;       &quot;State&quot;</code></pre>
-<pre class="r"><code>#Arrange the columns in proper order to make the data sensible
+<pre class="r"><code>#Arrange the columns in proper order to make the data sensible.
 df_merge &lt;- df_merge[c(&quot;Brewery_id&quot;,&quot;Brew_name&quot;,&quot;Beer_ID&quot;,&quot;Beer_name&quot;,
                        &quot;ABV&quot;,&quot;IBU&quot;,&quot;Style&quot;,&quot;Ounces&quot;, &quot;City&quot;,&quot;State&quot;)]
 
@@ -677,9 +677,8 @@ summaryABV</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ## 0.02700 0.05000 0.05700 0.05991 0.06800 0.12500</code></pre>
 <p>7.Scatter plot to show a relationship between the bitterness of the beer and its alcoholic content.</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package 'ggplot2' was built under R version 3.4.2</code></pre>
-<pre class="r"><code>cor(mergebeerclean$IBU, mergebeerclean$ABV)</code></pre>
+<pre class="r"><code>library(ggplot2)
+cor(mergebeerclean$IBU, mergebeerclean$ABV)</code></pre>
 <pre><code>## [1] 0.6706215</code></pre>
 <pre class="r"><code>ggplot(mergebeerclean, aes(x=IBU, y=ABV)) + 
   geom_point(color = &quot;orange red&quot;, size = 3)+
