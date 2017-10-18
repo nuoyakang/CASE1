@@ -1,3 +1,4 @@
+read the clean 
 mergebeerclean <- read.csv("data/processed/BeersAndBreweriesCleaned.csv", sep = ',')
 
 subsetbeer<- data.frame(mergebeerclean$State,
